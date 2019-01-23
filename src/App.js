@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import {Route} from 'react-router-dom'
 import PlayerContainer from './PlayerContainer';
 import TeamContainer from './TeamContainer';
 import MatchupContainer from './MatchupContainer';
 import ResultsContainer from './ResultsContainer';
 import UserContainer from './UserContainer';
+import Home from './Home';
 
 class App extends Component {
   state = {
@@ -160,15 +162,11 @@ render() {
     return (
       <div className="app">
         <h1>NBA Dream Match</h1>
-        <h5>Postionless Fantasy for a Postionless NBA</h5>
-        <h6>If you are a fan of the NBA you may have heard of the term postionless basketball. You no longer have to be held back by the constraints of traditional fantasy. In NBA Dream Match, postion doesn't matter! Build the best team possible and keep under budget. See if you can beat the computer. Click a player to add or remove him from your team. Once you have selected a press Generate Matchup to see your opponent. Press simulate to see if you can beat the computer. </h6>
-        {this.state.pcIsVisible ? (<h3>Select 5 Players. Stay Under the Budget</h3>) : null}
-        {this.state.pcIsVisible ? (<h6>Prices based on the 2018-19 season</h6>) : null}
-        {this.state.pcIsVisible ? (<h5>Budget: ${this.state.budget}</h5>) : null}
+        {this.state.pcIsVisible ? (<Home budget={this.state.budget}/>) : null}
 
         {this.state.pcIsVisible ? (<input placeholder={"Search"} value={this.state.searchBar} onChange={this.handleSearchInput}/>) : null}
 
-        {this.state.pcIsVisible ? (<PlayerContainer  players={this.filterPlayers()} addPlayer={this.addPlayer} />) : null}
+        {this.state.pcIsVisible ? (<PlayerContainer  budget={this.state.budget} players={this.filterPlayers()} addPlayer={this.addPlayer} />) : null}
         {this.state.pcIsVisible ? (<h1>My Team</h1>) : null}
 
 

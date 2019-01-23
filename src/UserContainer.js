@@ -1,7 +1,8 @@
 import React from "react";
 import UserBox from "./UserBox"
+
 export default class UserContainer extends React.Component {
-  
+
   render() {
 
     const showUsers = () => this.props.users.map(user => {
