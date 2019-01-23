@@ -52,9 +52,20 @@ class App extends Component {
         computerBudget: newBudget
       })
       console.log(newComputerTeam, newBudget, this.state.myTeam);
+      fetch('http://localhost:3000/api/v1/teams', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            	Accept: 'application/json'
+        },
+        body: JSON.stringify({player1:this.state.myTeam[0].id, player2:this.state.myTeam[1].id, player3: this.state.myTeam[2].id, player4:this.state.myTeam[3].id, player5:this.state.myTeam[4].id})
+    })
+    .then(response => response.json())
+    .then(json => console.log(json))
+}
 
 
-    };
+
 
 
   addPlayer = (e, player) => {
