@@ -18,6 +18,7 @@ export default class PlayerContainer extends React.Component {
     return (
     <div> <h6>Prices based on the 2018-19 season</h6>
          <h5>Budget: ${this.props.budget}</h5>
+         
          {showPlayers()}
          </div>
        )

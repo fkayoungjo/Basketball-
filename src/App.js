@@ -6,6 +6,7 @@ import MatchupContainer from './MatchupContainer';
 import ResultsContainer from './ResultsContainer';
 import UserContainer from './UserContainer';
 import Home from './Home';
+import NavBar from "./NavBar";
 
 class App extends Component {
   state = {
@@ -161,24 +162,45 @@ class App extends Component {
 render() {
     return (
       <div className="app">
+        <NavBar />
         <h1>NBA Dream Match</h1>
-        {this.state.pcIsVisible ? (<Home budget={this.state.budget}/>) : null}
-
-        {this.state.pcIsVisible ? (<input placeholder={"Search"} value={this.state.searchBar} onChange={this.handleSearchInput}/>) : null}
-
-        {this.state.pcIsVisible ? (<PlayerContainer  budget={this.state.budget} players={this.filterPlayers()} addPlayer={this.addPlayer} />) : null}
-        {this.state.pcIsVisible ? (<h1>My Team</h1>) : null}
-
-
-        {this.state.pcIsVisible ? (<TeamContainer players={this.state.myTeam} computer={this.state.computerTeam} removePlayer={this.removePlayer}/>) : null}
-        {this.state.pcIsVisible ? (<button onClick={(event) => this.handleMatchup(event)}>Generate Matchup</button>) : null}
+      <Route path="/" render={Home} />
+        <Route
+            path="/play"
+            render={() => {
+              if(this.state.pcIsVisible===true) {
+                return(
+                  <div>
+                <input placeholder={"Search"} value={this.state.searchBar} onChange={this.handleSearchInput}/>
+                <PlayerContainer classname='scrollabletextbox'  budget={this.state.budget} players={this.filterPlayers()} addPlayer={this.addPlayer} />
+                <h1>My Team</h1>
+                <TeamContainer players={this.state.myTeam} computer={this.state.computerTeam} removePlayer={this.removePlayer}/>
+                <button onClick={(event) => this.handleMatchup(event)}>Generate Matchup</button>
+                </div>
+              );
+            } else {
+              console.log("empty");
+              return null;
+            }
+          }}
+        />
 
 
         {this.state.mcIsVisible ? (<MatchupContainer myTeam={this.state.myTeam} computerTeam={this.state.computerTeam} simulateMatchup={this.simulateMatchup}/>) : null}
 
         {this.state.rcIsVisible ? (<ResultsContainer myTeam={this.state.myTeam} computerTeam={this.state.computerTeam} myScore={this.state.myScore} computerScore={this.state.computerScore} handleNameInput={this.handleNameInput} nameBar={this.state.nameBar} createUser={this.createUser}/>) : null}
 
-        {this.state.ucIsVisible ? (<UserContainer users={this.state.users} />) : null}
+        <Route
+            path="/leaderboard"
+            render={() => {
+              if(this.state.pcIsVisible===true) {
+                return(<UserContainer users={this.state.users.sort((a, b) => b.points - a.points)} />)
+      } else {
+        console.log("empty");
+        return null;
+      }
+    }}
+  />
       </div>
     );
   }
