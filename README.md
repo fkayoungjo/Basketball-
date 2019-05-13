@@ -3,6 +3,7 @@
 NBA Matchup Simulator is a web app which determines if your can build a better team NBA lineup than a computer. Built a custom API with all of the players in the NBA along with relevant stats for the simulator. Press play and select 5 players. Press generate matchup to randomly generate a computer team. Press simulate to find out which team is better. Finally enter your name to the leaderboard.
 
 ##Getting Started
+![Image description](/Users/jordansimon/Development/mod-4/basketball/Screen Shot 2019-05-13 at 3.17.51 AM.png)
 
 To begin using fork and clone the frontend and back end of the project. CD into backend project folder. Use rake to create and migrate the database. Use rails start to server.
 
