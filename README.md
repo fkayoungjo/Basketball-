@@ -1,68 +1,63 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+##NBA Matchup Simulator
 
-## Available Scripts
+NBA Matchup Simulator is a web app which determines if your can build a better team NBA lineup than a computer. Built a custom API with all of the players in the NBA along with relevant stats for the simulator. Press play and select 5 players. Press generate matchup to randomly generate a computer team. Press simulate to find out which team is better. Finally enter your name to the leaderboard.
 
-In the project directory, you can run:
+##Getting Started
 
-### `npm start`
+To begin using fork and clone the frontend and back end of the project. CD into backend project folder. Use rake to create and migrate the database. Use rails start to server.
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+` bash
+rake db: create
+`
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+` bash
+rake db: migrate
+`
 
-### `npm test`
+`bash
+rails start
+`
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+CD into front end project folder. Use npm to install and start the react server
 
-### `npm run build`
+`bash
+npm I && npm start
+`
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+##Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+  generateMatchup = (e) => {
+    let newComputerTeam = []
+    let newBudget = 80
+    for (let i = 5; i > newComputerTeam.length;) {
+      let newPlayer = this.state.players[Math.floor(Math.random() * 485) + 1];
+      console.log(newPlayer)
+      if((!newComputerTeam.includes(newPlayer)) && (newPlayer.price >= 1) && (newBudget >= newPlayer.price) && (newComputerTeam.length < 5) && (newBudget >= 0)) {
+      newComputerTeam = [...newComputerTeam, newPlayer]
+      newBudget = newBudget - newPlayer.price
+        }
+      };
+      this.setState({
+        computerTeam: newComputerTeam,
+        computerBudget: newBudget,
+      })
+      console.log(newComputerTeam, newBudget, this.state.myTeam)
+    }
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+##Built With
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+React.js
+Reactstrap
+Ruby on Rails
+Postgressql
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+##Authors
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Jordan Simon - Initial Work
 
-## Learn More
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Please make sure to update tests as appropriate.
