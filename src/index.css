@@ -12,3 +12,40 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+}
+
+.center-col {
+  flex: 1;
+  background: #aaa;
+  overflow-y: scroll;
+}
+
+const titleStyle = {
+ color:"blue"
+}
+.my-custom-scrollbar {
+position: relative;
+height: 335px;
+overflow: auto;
+width: 100%
+
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+
+.header {
+  font-family: 'BebasNeueRegular';
+  padding-left: 30px;
+  text-align: left;
+  background: black;
+  color: grey;
+  font-size: 40px;
+  width: 100%;
+  opacity: .9
+}

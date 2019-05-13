@@ -2,18 +2,41 @@ import React from 'react';
 
 const PlayerBox = (props) => {
       let showPlayer = () => {
-            if(props.parent === 'playercontainer') {
-                  return(<h5> {props.player.team_abbreviation} {props.player.player_name} ${props.player.price}</h5>)
-            }
-            else {
                   return (
-                        <h5> {props.player.team_abbreviation} {props.player.player_name} ${props.player.price} PPG:{props.player.pts} REB:{props.player.reb} AST:{props.player.ast} TOV:{props.player.tov} STL: {props.player.stl} BLK: {props.player.blk}</h5>)
-            }
-      }
+        <table>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Price</th>
+          <th>Name</th>
+          <th>PPG</th>
+          <th>REB</th>
+          <th>AST</th>
+          <th>STL</th>
+          <th>BLK</th>
+          <th>TOV</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{props.player.team_abbreviation}</td>
+          <td>${props.player.price}</td>
+          <td>{props.player.player_name}</td>
+          <td>{props.player.pts}</td>
+          <td>{props.player.reb}</td>
+          <td>{props.player.ast}</td>
+          <td>{props.player.stl}</td>
+          <td>{props.player.blk}</td>
+          <td>{props.player.tov}</td>
+        </tr>
+      </tbody>
+      </table>
+)}
+
 
       return(
 
-                <h6> {showPlayer()}</h6>
+                 showPlayer()
 
 
 

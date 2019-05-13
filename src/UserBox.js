@@ -6,7 +6,7 @@ const UserBox = (props) => {
       }
 
       return(
-            
+
 
                 <h6> {showUser()}</h6>
 

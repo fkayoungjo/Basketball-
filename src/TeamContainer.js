@@ -1,5 +1,6 @@
 import React from "react";
-import PlayerBox from "./PlayerBox"
+import PlayerBox from "./PlayerBox";
+import { Table } from 'reactstrap';
 
 export default class TeamContainer extends React.Component {
 
@@ -13,7 +14,23 @@ export default class TeamContainer extends React.Component {
         </div>
       );
     });
+    const divStyle={
+        width: "100%",
+        float: 'right',
+        postion: 'fixed'
+      };
 
-    return showPlayers();
+    return(
+    <div>
+
+    
+    <br></br>
+    <div class="table-wrapper-scroll-y my-custom-scrollbar">
+    <Table dark size="sm" hover border style={divStyle}>
+    {showPlayers()}
+    </Table>
+    </div>
+    </div>
+  )
   }
 }

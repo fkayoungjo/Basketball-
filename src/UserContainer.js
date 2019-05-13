@@ -1,5 +1,6 @@
 import React from "react";
-import UserBox from "./UserBox"
+import UserBox from "./UserBox";
+import { ListGroup, ListGroupItem } from 'reactstrap';
 
 export default class UserContainer extends React.Component {
 
@@ -15,7 +16,9 @@ export default class UserContainer extends React.Component {
 
     return <div>
     <h3>Leaderboard</h3>
-    {showUsers()}
+    <ListGroup>
+    <ListGroupItem className="justify-content-between">{showUsers()}</ListGroupItem>
+    </ListGroup>
     </div>
   }
 }

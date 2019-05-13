@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom'
+import {Route, withRouter} from 'react-router-dom'
 import PlayerContainer from './PlayerContainer';
 import TeamContainer from './TeamContainer';
 import MatchupContainer from './MatchupContainer';
@@ -7,6 +7,8 @@ import ResultsContainer from './ResultsContainer';
 import UserContainer from './UserContainer';
 import Home from './Home';
 import NavBar from "./NavBar";
+import { Row, Col, Button } from 'reactstrap';
+
 
 class App extends Component {
   state = {
@@ -19,6 +21,7 @@ class App extends Component {
     myScore: 0,
     computerScore: 0,
     points: 0,
+    computerPoints: 0,
     nameBar: '',
     users: [],
     pcIsVisible: true,
@@ -131,18 +134,19 @@ class App extends Component {
     let myScore = myArray.reduce(this.sumNumbers); let computerScore = computerArray.reduce(this.sumNumbers);
      myScore = myScore * 10;  computerScore = computerScore * 10;
      let points = myScore - computerScore;
+     let computerPoints= computerScore - myScore
      console.log(myScore, computerScore);
      this.setState({
        myScore: myScore,
        computerScore: computerScore,
        points: points,
+       computerPoints: computerPoints,
        mcIsVisible: false,
        rcIsVisible: true
      })
    }
 
-   createUser = (e) => {
-     e.preventDefault()
+   createUser = userInfo => {
      fetch('http://localhost:3000/api/v1/users', {
        method: "POST",
        headers: {
@@ -152,18 +156,35 @@ class App extends Component {
        body: JSON.stringify({name:this.state.nameBar, points:this.state.points, your_score:this.state.myScore, opponent_score:this.state.computerScore,  player1:this.state.myTeam[0].id, player2:this.state.myTeam[1].id, player3: this.state.myTeam[2].id, player4:this.state.myTeam[3].id, player5:this.state.myTeam[4].id, opponent1:this.state.computerTeam[0].id, opponent2:this.state.computerTeam[1].id, opponent3:this.state.computerTeam[2].id, opponent4:this.state.computerTeam[3].id, opponent5:this.state.computerTeam[4].id})
    })
    .then(response => response.json())
-   .then(json => console.log(json))
-   this.setState({
+   .then(json => console.log(json)).then(this.setState({
      rcIsVisible: false,
      ucIsVisible: true
-   })
+   }))
+
    }
 
+   userSubmitHandler = (e, userInfo) => {
+    
+    this.createUser(userInfo);
+    this.getUsers()
+    this.props.history.push("/leaderboard");
+  };
+
+   handleUc = (e) => {this.setState({
+     ucIsVisible: true
+   })
+ }
+
+ turnOffUc = (e) => {this.setState({
+   ucIsVisible: false
+ })
+}
+
 render() {
+  console.log(this.state.ucIsVisible)
     return (
-      <div className="app">
-        <NavBar />
-        <h1>NBA Dream Match</h1>
+      <div>
+        <NavBar handleUc={this.handleUc} turnOffUc={this.turnOffUc}/>
       <Route path="/" render={Home} />
         <Route
             path="/play"
@@ -171,11 +192,15 @@ render() {
               if(this.state.pcIsVisible===true) {
                 return(
                   <div>
-                <input placeholder={"Search"} value={this.state.searchBar} onChange={this.handleSearchInput}/>
-                <PlayerContainer classname='scrollabletextbox'  budget={this.state.budget} players={this.filterPlayers()} addPlayer={this.addPlayer} />
-                <h1>My Team</h1>
-                <TeamContainer players={this.state.myTeam} computer={this.state.computerTeam} removePlayer={this.removePlayer}/>
-                <button onClick={(event) => this.handleMatchup(event)}>Generate Matchup</button>
+                <input placeholder={"Search Players"} value={this.state.searchBar} onChange={this.handleSearchInput}/>
+                <Row>
+                <Col xs="6"><PlayerContainer  budget={this.state.budget} players={this.filterPlayers()} addPlayer={this.addPlayer} /></Col>
+
+
+                <Col xs="6"><h1 className="display-4">My Team</h1><TeamContainer players={this.state.myTeam} computer={this.state.computerTeam} removePlayer={this.removePlayer}/></Col>
+                </Row>
+
+                <Button color="primary" onClick={(event) => this.handleMatchup(event)}>Generate Matchup</Button>
                 </div>
               );
             } else {
@@ -188,16 +213,16 @@ render() {
 
         {this.state.mcIsVisible ? (<MatchupContainer myTeam={this.state.myTeam} computerTeam={this.state.computerTeam} simulateMatchup={this.simulateMatchup}/>) : null}
 
-        {this.state.rcIsVisible ? (<ResultsContainer myTeam={this.state.myTeam} computerTeam={this.state.computerTeam} myScore={this.state.myScore} computerScore={this.state.computerScore} handleNameInput={this.handleNameInput} nameBar={this.state.nameBar} createUser={this.createUser}/>) : null}
+        {this.state.rcIsVisible ? (<ResultsContainer myTeam={this.state.myTeam} computerTeam={this.state.computerTeam} myScore={this.state.myScore} computerScore={this.state.computerScore} handleNameInput={this.handleNameInput} nameBar={this.state.nameBar} createUser={this.userSubmitHandler} points={this.state.points}
+          computerPoints={this.state.computerPoints}/>) : null}
 
         <Route
             path="/leaderboard"
             render={() => {
-              if(this.state.pcIsVisible===true) {
+              if(this.state.ucIsVisible===true) {
                 return(<UserContainer users={this.state.users.sort((a, b) => b.points - a.points)} />)
       } else {
-        console.log("empty");
-        return null;
+        return (<UserContainer users={this.state.users.sort((a, b) => b.points - a.points)} />);
       }
     }}
   />
@@ -208,4 +233,4 @@ render() {
 
 }
 
-export default App;
+export default withRouter(App);
